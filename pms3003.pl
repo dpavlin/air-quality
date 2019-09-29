@@ -36,6 +36,7 @@ pm10_r
 while (1) {
 
 	my ($len, $string) = $s->read(24);
+	die $! if ! defined($len);
 	if ( $len > 0 ) {
 		my @v = unpack('n*', $string);
 		warn "# $len ",dump($string), dump( @v ), $/ if $debug;
