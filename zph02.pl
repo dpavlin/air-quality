@@ -24,9 +24,19 @@ while (1) {
 	my ($len, $string) = $s->read(9);
 	if ( $len > 0 ) {
 		my @v = unpack('C*', $string);
-		warn "# $len ",dump($string), dump( @v ), $/;
+		#warn "# $len ",dump($string), dump( @v ), $/;
+
+		my $sum = 0;
+		# -2 is specified in datasheet, next byte is 0 so it's same as -1
+		foreach my $i ( 0 .. $#v - 2 ) {
+			$sum += $v[$i];
+			$sum = $sum & 0xff;
+		}
+		$sum = ~$sum & 0xff;
+
+		my $checksum = $v[8];
 		my $pcnt = $v[3] + ( $v[4] / 100 );
-		if ( $v[0] == 0xff ) {
+		if ( $v[0] == 0xff && $sum == $checksum ) {
 			my $influx = "zph02,dc=trnjanska pm25_pcnt=$pcnt";
 			print "$influx\n";
 			system "curl --silent -XPOST '$influx_url' --data-binary '$influx'"
