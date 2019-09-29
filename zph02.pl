@@ -3,6 +3,7 @@ use warnings;
 use strict;
 # sudo apt install libdevice-serialport-perl libdata-dump-perl
 use Device::SerialPort;
+use Time::HiRes;
 use Data::Dump qw(dump);
 
 my $port = shift @ARGV || '/dev/ttyUSB0';
@@ -22,6 +23,8 @@ $s->read_const_time(10);
 while (1) {
 
 	my ($len, $string) = $s->read(9);
+	my $t = int( Time::HiRes::time() * 1_000_000_000 );
+	die $! if ! defined($len);
 	if ( $len > 0 ) {
 		my @v = unpack('C*', $string);
 		#warn "# $len ",dump($string), dump( @v ), $/;
@@ -37,7 +40,7 @@ while (1) {
 		my $checksum = $v[8];
 		my $pcnt = $v[3] + ( $v[4] / 100 );
 		if ( $v[0] == 0xff && $sum == $checksum ) {
-			my $influx = "zph02,dc=trnjanska pm25_pcnt=$pcnt";
+			my $influx = "zph02,dc=trnjanska pm25_pcnt=$pcnt $t";
 			print "$influx\n";
 			system "curl --silent -XPOST '$influx_url' --data-binary '$influx'"
 		}
