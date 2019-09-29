@@ -1,0 +1,12 @@
+Experiments with air quality sensors
+
+Scripts in this directory talk to sensors and store data into influxdb.
+
+When receiving data from sensors, they check  header and checksum to
+avoid sending garbage data. This also helps when you select wrong
+serial port, beacuse script from wrong sensor won't send invalid or
+corrupt data. Timestamp are also generated locally to mitigate any
+network latency to influxdb (which is somewhere in the cloud, and
+latency can vary just enough to create empty vertical stripes in
+graphs which is ugly and incorrect).
+
