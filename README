@@ -1,6 +1,8 @@
 Experiments with air quality sensors
 
-Scripts in this directory talk to sensors and store data into influxdb.
+Scripts in this directory read from sesor serial port output (which
+is 3.3V serial connected to usb serial dongle) and store data to
+influxdb using curl.
 
 When receiving data from sensors, they check  header and checksum to
 avoid sending garbage data. This also helps when you select wrong
