@@ -38,7 +38,7 @@ while (1) {
 		}
 		$sum = 0xff - $sum + 1;
 
-		my $checksum = $v[8] || die "no checksum";
+		my $checksum = $v[8];
 		my $co2 = $v[2] * 255 + $v[3];
 		if ( $v[0] == 0xff && $sum == $checksum ) {
 			my $influx = "mh-z19b,dc=trnjanska co2=$co2 $t";
