@@ -29,7 +29,10 @@ while (1) {
 	die $! if ! defined($len);
 	if ( $len > 0 ) {
 		my @v = unpack('C*', $string);
-		#warn "# $len ",dump($string), dump( @v ), $/;
+		if ( $#v < 8 ) {
+			warn "# $len ",dump($string), dump( @v ), $/;
+			next;
+		}
 
 		my $sum = 0;
 		foreach my $i ( 1 .. $#v - 1 ) {
