@@ -1,0 +1,10 @@
+[Unit]
+Description=Air
+
+[Service]
+User=dpavlin
+ExecStart=/home/dpavlin/air-quality/mh-z19b.pl
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

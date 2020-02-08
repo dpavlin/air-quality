@@ -1,0 +1,10 @@
+[Unit]
+Description=Air
+
+[Service]
+User=dpavlin
+ExecStart=/home/dpavlin/air-quality/dsm501.pl
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
