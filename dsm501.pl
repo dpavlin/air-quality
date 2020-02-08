@@ -6,7 +6,7 @@ use Device::SerialPort;
 use Time::HiRes;
 use Data::Dump qw(dump);
 
-my $port = shift @ARGV || '/dev/ttyUSB2';
+my $port = shift @ARGV || '/dev/ttyUSB4';
 my $influx_url = shift @ARGV || 'http://10.13.37.229:8186/write?db=telegraf';
 $influx_url = 'http://10.13.37.92:8086/write?db=rot13';
 my $measurement = $ENV{MEASUREMENT} || 'dsm501';
@@ -27,7 +27,7 @@ while (1) {
 	my $t = int( Time::HiRes::time() * 1_000_000_000 );
 	die $! if ! defined($len);
 	if ( $len > 0 ) {
-		warn "# len=$len ",dump($string);
+		#warn "# len=$len ",dump($string);
 		if ( $string !~ m/^#/ ) {
 			$string =~ s/[\r\n]+$//;
 			$string =~ s/\s/,/g;
