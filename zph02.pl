@@ -6,8 +6,7 @@ use Device::SerialPort;
 use Time::HiRes;
 use Data::Dump qw(dump);
 
-my $port = shift @ARGV || '/dev/ttyUSB1';
-$port = '/dev/serial/by-path/pci-0000:00:1a.7-usb-0:5.4:1.0-port0';
+my $port = shift @ARGV || '/dev/serial/by-path/pci-0000:00:1a.7-usb-0:5.4:1.0-port0';
 my $influx_url = shift @ARGV || 'http://10.13.37.229:8186/write?db=telegraf';
 $influx_url = 'http://10.13.37.92:8086/write?db=rot13';
 
@@ -22,6 +21,11 @@ $s->read_const_time(10);
 
 
 while (1) {
+
+	alarm 3;
+	# Usb serial which I'm using is buggy and blocks from time to time.
+	# This will ensure that we have passed here every 3 seconds
+	# or we will be killed and systemd will restart us
 
 	my ($len, $string) = $s->read(9);
 	my $t = int( Time::HiRes::time() * 1_000_000_000 );
