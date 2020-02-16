@@ -1,6 +1,6 @@
 Experiments with air quality sensors
 
-Scripts in this directory read from sesor serial port output (which
+Scripts in this directory read from sensor serial port output (which
 is 3.3V serial connected to usb serial dongle) and store data to
 influxdb using curl.
 
