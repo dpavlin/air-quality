@@ -1,0 +1,10 @@
+[Unit]
+Description=audio to mqtt
+
+[Service]
+User=dpavlin
+ExecStart=/home/dpavlin/air-quality/audio2mqtt.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
