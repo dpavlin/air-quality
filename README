@@ -12,3 +12,16 @@ network latency to influxdb (which is somewhere in the cloud, and
 latency can vary just enough to create empty vertical stripes in
 graphs which is ugly and incorrect).
 
+
+Exception to that rule is dsm501.pl which is general serial to
+influx bridge used by helper shell scripts to handle sensors
+which require 5V by connecting them to Arduino-like mcu.
+Example of that is:
+
+mq7.sh
+
+which uses https://github.com/dpavlin/mq7-co-monitor/
+
+on Arduino to produce output which is then fed to dsm501.pl.
+
+
