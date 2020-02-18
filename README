@@ -25,3 +25,11 @@ which uses https://github.com/dpavlin/mq7-co-monitor/
 on Arduino to produce output which is then fed to dsm501.pl.
 
 
+Another strage one is audio2influx.sh which doesn't require
+any external hardware but instead report sox info about 1s
+or audio to influxdb. I'm using this to passivly monitor
+fan rotation by connecting it directly to microphone input
+on netbook and adjusting input gain to prevent clipping
+using alsamixer.
+
+To make alsamixer work, I had to remove pulseaudio.

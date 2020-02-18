@@ -1,9 +1,9 @@
 [Unit]
-Description=audio to mqtt
+Description=audio to influx
 
 [Service]
 User=dpavlin
-ExecStart=/home/dpavlin/air-quality/audio2mqtt.sh
+ExecStart=/home/dpavlin/air-quality/audio2influx.sh
 Restart=on-failure
 
 [Install]
