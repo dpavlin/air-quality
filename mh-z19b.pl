@@ -6,7 +6,7 @@ use Device::SerialPort;
 use Time::HiRes;
 use Data::Dump qw(dump);
 
-my $port = shift @ARGV || '/dev/serial/by-path/pci-0000:00:1a.7-usb-0:5.3.4:1.2';
+my $port = shift @ARGV || '/dev/serial/by-path/platform-3f980000.usb-usb-0:1.4.2:1.2';
 my $influx_url = shift @ARGV || 'http://10.13.37.92:8086/write?consistency=any&db=rot13';
 
 my $s = new Device::SerialPort( $port ) || die $!;
