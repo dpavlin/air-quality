@@ -45,6 +45,8 @@ while (1) {
 			my $influx = "mh-z19b,dc=trnjanska co2=$co2 $t";
 			print "$influx\n";
 			system "curl --silent -XPOST '$influx_url' --data-binary '$influx'"
+		} else {
+			die "checksum error";
 		}
 		sleep 1;
 		$s->write("\xFF\x01\x86\x00\x00\x00\x00\x00\x79");
