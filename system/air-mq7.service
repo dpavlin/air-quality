@@ -2,8 +2,8 @@
 Description=Air
 
 [Service]
-User=dpavlin
-ExecStart=/home/dpavlin/air-quality/mq7.sh
+User=pi
+ExecStart=/home/pi/air-quality/mq7.sh
 Restart=on-failure
 
 [Install]

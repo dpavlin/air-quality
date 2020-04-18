@@ -2,9 +2,10 @@
 Description=Air
 
 [Service]
-User=dpavlin
-ExecStart=/home/dpavlin/air-quality/mh-z19b.pl
-Restart=on-failure
+User=pi
+ExecStart=/home/pi/air-quality/mh-z19b.pl
+Restart=always
+RestartSec=3s
 
 [Install]
 WantedBy=multi-user.target
