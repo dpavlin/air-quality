@@ -46,7 +46,8 @@ while (1) {
 		if ( $v[0] == 0xff && $sum == $checksum ) {
 			my $influx = "zph02,dc=trnjanska pm25_pcnt=$pcnt $t";
 			print "$influx\n";
-			system "curl --silent -XPOST '$influx_url' --data-binary '$influx'"
+			system "curl --silent -XPOST '$influx_url' --data-binary '$influx'";
+			system "mosquitto_pub -h rpi2 -t 'air/zph02/pm25' -m $pcnt";
 		}
 	}
 
