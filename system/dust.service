@@ -1,0 +1,11 @@
+[Unit]
+Description=dust sensor
+
+[Service]
+User=dpavlin
+ExecStart=/nuc/air-quality/dust.sh
+Restart=always
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target
