@@ -1,0 +1,11 @@
+[Unit]
+Description=iio2mqtt
+
+[Service]
+User=dpavlin
+ExecStart=/home/dpavlin/air-quality/iio2mqtt.pl
+Restart=always
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target
