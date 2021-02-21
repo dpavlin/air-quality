@@ -6,7 +6,7 @@ use Time::HiRes;
 
 # sudo apt install libiio-utils mosquitto-clients
 
-my $influx_url = shift @ARGV || 'http://10.13.37.92:8086/write?consistency=any&db=rot13';
+my $influx_url = shift @ARGV || 'http://10.60.0.92:8086/write?consistency=any&db=rot13';
 
 my $delay = $ENV{DELAY} || 1;
 
