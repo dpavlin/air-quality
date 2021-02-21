@@ -21,6 +21,7 @@ while(1) {
 	my $device;
 	my $name;
 
+	my @influx;
 	foreach ( split(/\n/, $iio) ) {
 		if ( m/iio:device\d+:\s+(\S+)/ ) {
 			$device = $1;
@@ -35,12 +36,13 @@ while(1) {
 			#print "$topic $val\n";
 			system "mosquitto_pub -h rpi2 -t $topic -m $val";
 
-			my $influx = "iio,dc=trnjanska,host=$hostname,device=$device $name=$val $t_influx";
-			system "curl --silent -XPOST '$influx_url' --data-binary '$influx'";
+			push @influx, "${device}_${name}=$val";
 		} else {
 			#warn "# $_\n";
 		}
 	}
+	my $influx = "iio,dc=trnjanska,host=$hostname " . join(",", @influx) . " $t_influx";
+	system "curl --silent -XPOST '$influx_url' --data-binary '$influx'";
 
 	sleep Time::HiRes::time + 1 - $t;
 }
