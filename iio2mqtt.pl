@@ -21,10 +21,17 @@ while(1) {
 	my $device;
 	my $name;
 
-	my @influx;
+	my $influx = '';
+
 	foreach ( split(/\n/, $iio) ) {
 		if ( m/iio:device\d+:\s+(\S+)/ ) {
 			$device = $1;
+
+			if ( $influx =~ m/,$/ ) {
+				$influx =~ s/,$/ $t_influx\n/;
+			}
+			$influx .= "iio,dc=trnjanska,host=$hostname,device=$device ";
+
 		} elsif ( m/(\S+):\s+\(input\)/ ) {
 			$name = $1;
 		} elsif ( m/attr\s+0:\s+input\svalue: (\d+[\.\d]+)/ ) {
@@ -36,13 +43,15 @@ while(1) {
 			#print "$topic $val\n";
 			system "mosquitto_pub -h rpi2 -t $topic -m $val";
 
-			push @influx, "${device}_${name}=$val";
+			$influx .= "$name=$val,";
 		} else {
 			#warn "# $_\n";
 		}
 	}
-	my $influx = "iio,dc=trnjanska,host=$hostname " . join(",", @influx) . " $t_influx";
+
+	$influx =~ s/,$/ $t_influx/;
 	system "curl --silent -XPOST '$influx_url' --data-binary '$influx'";
+	warn "$influx\n";
 
 	sleep Time::HiRes::time + 1 - $t;
 }
