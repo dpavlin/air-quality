@@ -8,6 +8,8 @@ use Time::HiRes;
 
 my $influx_url = shift @ARGV || 'http://10.13.37.92:8086/write?consistency=any&db=rot13';
 
+my $delay = $ENV{DELAY} || 1;
+
 my $hostname = `hostname -s`;
 chomp($hostname);
 
@@ -29,6 +31,8 @@ while(1) {
 
 			if ( $influx =~ m/,$/ ) {
 				$influx =~ s/,$/ $t_influx\n/;
+			} elsif ( $influx =~ m/ $/ ) { # only device
+				$influx =~ s/\S+\s$//;
 			}
 			$influx .= "iio,dc=trnjanska,host=$hostname,device=$device ";
 
@@ -53,5 +57,5 @@ while(1) {
 	system "curl --silent -XPOST '$influx_url' --data-binary '$influx'";
 	warn "$influx\n";
 
-	sleep Time::HiRes::time + 1 - $t;
+	sleep Time::HiRes::time + $delay - $t;
 }
