@@ -57,5 +57,8 @@ while(1) {
 	system "curl --silent -XPOST '$influx_url' --data-binary '$influx'";
 	warn "$influx\n";
 
-	sleep Time::HiRes::time + $delay - $t;
+	my $dt = Time::HiRes::time + $delay - $t - 100;
+	if ( $dt > 0 ) {
+		sleep $dt;
+	}
 }
