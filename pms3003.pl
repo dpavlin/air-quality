@@ -60,7 +60,7 @@ while (1) {
 			$influx =~ s/,$//;
 			$influx .= " $t";
 			print "$influx\n";
-			system "curl --silent -XPOST '$influx_url' --data-binary '$influx'"
+			system "curl --max-time 2 --silent -XPOST '$influx_url' --data-binary '$influx'"
 		}
 	}
 

@@ -44,7 +44,7 @@ while (1) {
 		if ( $v[0] == 0xff && $sum == $checksum ) {
 			my $influx = "mh-z19b,dc=trnjanska co2=$co2 $t";
 			print "$influx\n";
-			system "curl --silent -XPOST '$influx_url' --data-binary '$influx'";
+			system "curl --max-time 2 --silent -XPOST '$influx_url' --data-binary '$influx'";
 			system "mosquitto_pub -h rpi2 -t 'air/mh-z19b/co2' -m $co2";
 		} else {
 			die "checksum error";
