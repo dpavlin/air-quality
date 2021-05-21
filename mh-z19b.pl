@@ -43,7 +43,7 @@ while (1) {
 		my $co2 = $v[2] * 255 + $v[3];
 		if ( $v[0] == 0xff && $sum == $checksum ) {
 			my $influx = "mh-z19b,dc=trnjanska co2=$co2 $t";
-			print "$influx\n";
+			print "$influx\n" if -e '/dev/shm/air-debug';
 			system "curl --max-time 2 --silent -XPOST '$influx_url' --data-binary '$influx'";
 			system "mosquitto_pub -h rpi2 -t 'air/mh-z19b/co2' -m $co2";
 		} else {

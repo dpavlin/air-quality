@@ -59,7 +59,7 @@ while (1) {
 			};
 			$influx =~ s/,$//;
 			$influx .= " $t";
-			print "$influx\n";
+			print "$influx\n" if -e '/dev/shm/air-debug';
 			system "curl --max-time 2 --silent -XPOST '$influx_url' --data-binary '$influx'"
 		}
 	}
