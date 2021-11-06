@@ -5,6 +5,7 @@ Description=Air
 User=pi
 ExecStart=/home/pi/air-quality/mq7.sh
 Restart=on-failure
+RestartSec=2s
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=network-online.target
