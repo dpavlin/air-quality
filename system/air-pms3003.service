@@ -1,0 +1,11 @@
+[Unit]
+Description=Air
+
+[Service]
+User=pi
+ExecStart=/home/pi/air-quality/pms3003.pl
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=network-online.target
