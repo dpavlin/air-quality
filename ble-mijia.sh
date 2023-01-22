@@ -7,14 +7,10 @@ gatttool -b $mac --char-write-req --handle='0x0038' --value="0100" --listen | te
 
 #echo "XXX[$bt]"
 
-temphexa=$(echo $bt | awk -F ' ' '{print $7$6}'| tr [:lower:] [:upper:] )
-humhexa=$(echo $bt | awk -F ' ' '{print $8}'| tr [:lower:] [:upper:])
-temperature100=$(echo "ibase=16; $temphexa" | bc)
-humidity=$(echo "ibase=16; $humhexa" | bc)
-temperature=$(echo "scale=2;$temperature100/100"|bc)
+v=$( echo $bt | awk '{ print "temperature=" strtonum("0x"$7$6) / 100, "humidity=" strtonum("0x"$8), "a=" strtonum("0x"$9), "b="strtonum("0x"$10) }' | sed 's/ /,/g' )
 
-echo $(date +%Y-%m-%d\ %H:%M:%S) $temperature $humidity
+echo $(date +%Y-%m-%d\ %H:%M:%S) $mac $v
 
-curl --silent -XPOST 'http://10.60.0.92:8086/write?consistency=any&db=rot13' --data-binary "mijia,dc=trnjanska,mac=$mac temperature=$temperature,humidity=$humidity"
+curl --silent -XPOST 'http://10.60.0.92:8086/write?consistency=any&db=rot13' --data-binary "mijia,dc=trnjanska,mac=$mac $v"
 
 done # gattool
