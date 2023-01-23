@@ -1,0 +1,11 @@
+[Unit]
+Description=Xiomi Mijia %i
+
+[Service]
+User=pi
+ExecStart=/home/pi/air-quality/ble-mijia.sh %i
+Restart=always
+RestartSec=3s
+
+[Install]
+WantedBy=network-online.target
